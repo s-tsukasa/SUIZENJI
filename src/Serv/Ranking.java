@@ -28,7 +28,7 @@ public class Ranking extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		RequestDispatcher dispatch = request.getRequestDispatcher("ranking.jsp");
+		RequestDispatcher dispatch = request.getRequestDispatcher("ranking2.jsp");
 		dispatch.forward(request, response);		// TODO Auto-generated method stub
 	}
 
