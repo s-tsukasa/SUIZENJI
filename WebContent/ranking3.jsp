@@ -5,6 +5,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>個人別成績表示</title>
+<link rel="stylesheet" href="my.css" content="text/css">
 </head>
 <body>
 <h2>工事中</h2>
@@ -30,6 +31,11 @@
 <input type="submit" value="決定">
 </select>
 </form>
+
+<table>
+<tr><th  rowspan=2>試験名</th><th colspan=2>総合</th><th colspan=2>国語</th><tr>
+<tr><th>中間試験</th><th>得点</th><th>順位</th><th>得点</th><th>順位</th></tr>
+</table>
 
 </body>
 </html>

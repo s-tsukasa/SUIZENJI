@@ -4,9 +4,12 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>生徒情報編集</title>
+<title>削除終了</title>
 </head>
 <body>
 
+<h2>削除しました</h2>
+
+<a href="index.html">トップメニューに戻る</a>
 </body>
 </html>

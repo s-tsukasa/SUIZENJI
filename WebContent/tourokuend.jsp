@@ -8,5 +8,9 @@
 </head>
 <body>
 
+<h2>登録完了しました。</h2>
+
+<a href="index.html">トップメニューに戻る</a>
+
 </body>
 </html>

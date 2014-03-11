@@ -4,6 +4,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" href="my.css" content="text/css">
 <title>個人成績表示</title>
 </head>
 <body>
