@@ -5,6 +5,7 @@ public class Seito {
 	private int nen;			// 入学年度
 	private String namae;		// 生徒名
 	private int delete_flag;	// 削除フラグ
+// gitのテストで、コメント追加
 
 	public Seito() {
 
