@@ -35,6 +35,21 @@ public class Ranking3 extends HttpServlet {
 		//ArrayList<Test> list = db.getTestList();
 		//db.close();
 
+		// debug
+		ArrayList<String> tlist = new ArrayList<String>();
+		tlist.add(new String("2013年度中間テスト"));
+		tlist.add(new String("2013年度期末テスト"));
+		tlist.add(new String("2014年度中間テスト"));
+		tlist.add(new String("2014年度期末テスト"));
+		request.setAttribute("tlist", tlist);
+		// debug
+		ArrayList<String> klist = new ArrayList<String>();
+		klist.add(new String("合計"));
+		klist.add(new String("国語"));
+		klist.add(new String("算数"));
+		klist.add(new String("理科"));
+		request.setAttribute("klist", klist);
+
 		RequestDispatcher dispatch = request.getRequestDispatcher("ranking3.jsp");
 		dispatch.forward(request, response);		// TODO Auto-generated method stub
 	}
@@ -44,6 +59,41 @@ public class Ranking3 extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
+		// debug
+		ArrayList<String> tlist = new ArrayList<String>();
+		tlist.add(new String("2013年度中間テスト"));
+		tlist.add(new String("2013年度期末テスト"));
+		tlist.add(new String("2014年度中間テスト"));
+		tlist.add(new String("2014年度期末テスト"));
+		request.setAttribute("tlist", tlist);
+
+		// 選択されたものを表示させること！
+
+		// debug
+		ArrayList<String> klist = new ArrayList<String>();
+		klist.add(new String("合計"));
+		klist.add(new String("国語"));
+		klist.add(new String("算数"));
+		klist.add(new String("理科"));
+		request.setAttribute("klist", klist);
+
+		/*
+		ArrayList<Memo> list = new ArrayList<Memo>();
+		try{
+			PreparedStatement stmt = con.prepareStatement("SELECT * from memo");
+			ResultSet rs = stmt.executeQuery();
+
+			while (rs.next()) {
+				Memo s = new Memo();
+				s.setMid(rs.getInt("mid"));
+				s.setBody(rs.getString("body"));
+				s.setMtime(rs.getTimestamp("mtime"));
+				list.add(s);
+			}
+
+			rs.close();
+			stmt.close();
+		*/
 		ArrayList<RankTableTest> list = new ArrayList<RankTableTest>();
 		// 総得点の場合は、いったん合計する
 
@@ -96,7 +146,7 @@ public class Ranking3 extends HttpServlet {
 		int ten_new = -1; // 今の得点
 		for(RankTableTest ra : list) {
 			ten_new = ra.getTen();
-			if(ten_old != ten_new) {	// １回目は必ず異なるため順位は１となる。
+			if(ten_old != ten_new) {	// １回目は必ず異なるため最初の順位は１となる。
 				no++;
 			}
 			ra.setRank(no);
@@ -104,7 +154,7 @@ public class Ranking3 extends HttpServlet {
 		}
 
 		// 順位データをセット
-		request.setAttribute("tlist", list);
+		request.setAttribute("tablelist", list);
 
 		RequestDispatcher dispatch = request.getRequestDispatcher("ranking3.jsp");
 		dispatch.forward(request, response);

@@ -8,34 +8,46 @@
 <link rel="stylesheet" href="my.css" content="text/css">
 </head>
 <body>
-<h2>工事中です！</h2>
+<h1>個人別成績表示</h1>
+
+<h2>工事中です！！</h2>
 
 <%
 //SeisekiKanriDB db = new SeisekiKanriDB();
 //ArrayList<Test> list = db.getTestList();
 //db.close();
 %>
+<%
+ArrayList<String> tname = (ArrayList<String>)request.getAttribute("tlist");	// 試験名
+ArrayList<String> kname = (ArrayList<String>)request.getAttribute("klist");	// 教科名
+%>
 
+20xx年度<br>
 <form action="Ranking3" method="POST" >
 試験名<select name="tnamae">
-<option value="A">中間</option>
-<option value="B">期末</option>
+<% for(String tn : tname) { %>
+<option value="<%= tn %>"><%= tn %></option>
+<% } %>
 </select>
-<br>教科<select name="ka">
-<option value="A">合計</option>
-<option value="B">国語</option>
-<option value="C">英語</option>
-</select>
-<br>学年<select name="nen">
+<br>
+<!-- 1から3年に固定 -->
+学年<select name="nen">
 <option value="A">1</option>
 <option value="B">2</option>
+<option value="C">3</option>
 </select>
-<br>組<select name="kyu">
+<!-- A,B,Cに固定 -->
+組<select name="kyu">
 <option value="A">A</option>
 <option value="B">B</option>
-<br>
-<input type="submit" value="決定">
+<option value="C">C</option>
 </select>
+教科<select name="ka">
+<% for(String kn : kname) { %>
+<option value="<%= kn %>"><%= kn %></option>
+<% } %>
+</select>
+<input type="submit" value="決定">
 </form>
 
 <!--
@@ -46,7 +58,7 @@
 -->
 
 <%
-ArrayList<RankTableTest> list = (ArrayList<RankTableTest>)request.getAttribute("tlist");
+ArrayList<RankTableTest> list = (ArrayList<RankTableTest>)request.getAttribute("tablelist");
 %>
 
 <table>
@@ -66,5 +78,8 @@ if(list != null) {
 %>
 </table>
 
+<br>
+<br>
+<a href="index.html">トップメニューに戻る</a>
 </body>
 </html>
