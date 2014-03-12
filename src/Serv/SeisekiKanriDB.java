@@ -29,6 +29,32 @@ public class SeisekiKanriDB {
 		}
 	}
 	//---------------------------------------------------------------
+	//seito seitosyousai merge
+	public ArrayList<SeitoAll> getSeitoAllList() {
+		ArrayList<SeitoAll> list = new ArrayList<SeitoAll>();
+		PreparedStatement stmt;
+		try {
+			stmt = con.prepareStatement("SELECT * from seito LEFT JOIN seitosyousai ON seito.sid=seitosyousai.sid WHERE seito.delete_flag=0");
+			ResultSet rs = stmt.executeQuery();
+
+			while (rs.next()) {
+				SeitoAll se = new SeitoAll();
+				se.setSid(rs.getInt("sid"));
+				se.setNamae(rs.getString("namae"));
+				se.setNen(rs.getInt("nen"));
+				se.setKyu(rs.getString("kyu"));
+				se.setGakunen(rs.getInt("seitosyousai.nen"));
+				se.setNo(rs.getInt("no"));
+				list.add(se);
+			}
+			rs.close();
+			stmt.close();
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}
+		return list;
+	}
+
 	// Seito 生徒
 	public ArrayList<Seito> getSeitoList() {
 		ArrayList<Seito> list = new ArrayList<Seito>();
