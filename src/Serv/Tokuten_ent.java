@@ -45,7 +45,7 @@ public class Tokuten_ent extends HttpServlet {
 
 
 		SeisekiKanriDB db = new SeisekiKanriDB();
-		ArrayList<Seito> slist = db.getSeitoList();
+		ArrayList<SeitoAll> slist = db.getSeitoAllList();
 		db.close();
 
 		// 処理

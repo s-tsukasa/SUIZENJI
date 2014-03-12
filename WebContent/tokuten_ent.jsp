@@ -34,19 +34,19 @@
 </form>
 
 <%
-ArrayList<Seito> list = (ArrayList<Seito>)request.getAttribute("slist");
+ArrayList<SeitoAll> list = (ArrayList<SeitoAll>)request.getAttribute("slist");
 %>
 
 <form action="Touroku_end" method="POST" >
 <%
 int i = 0;
-//if(list != null) {
-//	for(Seito s : list) {
-	for(i=0;i<10;i++) {
+if(list != null) {
+	for(SeitoAll s : list) {
 %>
-	<%= i  %> 	<%= i+2 %>  <input type = "text" name = "ten<%=i %>"><input type="hidden" name="sid<%=i %> value="<%=i %>"><br>
-<% }
-//}
+	<%= s.getSid()  %> 	<%= s.getNamae() %>  <input type = "text" name = "ten<%=i %>"><input type="hidden" name="sid<%=i %>" value="<%=i %>"><br>
+<%i = i + 1;
+	}
+}
 %>
 <input type="hidden" name="mode" value=1>
 <input type="submit" value="登録">
