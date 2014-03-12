@@ -12,20 +12,22 @@
 <p>表示したい生徒の学年とクラスを選択してください</p>
 <form action="Ranking2" method="POST" >
 <br>学年<select name="nen">
-<option value="A">1</option>
-<option value="B">2</option>
+<option value="1">1</option>
+<option value="2">2</option>
+<option value="3">3</option>
 </select>
 <br>組<select name="kyu">
 <option value="A">A</option>
 <option value="B">B</option>
+<option value="C">C</option>
 <br>
 <input type="submit" value="決定">
 </select>
 </form>
 
 <table>
-<tr><th  rowspan=2>試験名</th><th colspan=2>総合</th><th colspan=2>国語</th><tr>
-<tr><th>中間試験</th><th>得点</th><th>順位</th><th>得点</th><th>順位</th></tr>
+<tr><th  rowspan=2>試験名</th><th colspan=2>総合</th></tr>
+<tr><th>中間試験</th><th>得点</th><th>順位</th></tr>
 </table>
 
 </body>

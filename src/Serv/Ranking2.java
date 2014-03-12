@@ -1,6 +1,7 @@
 package Serv;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -35,6 +36,9 @@ public class Ranking2 extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		SeitoSyousai db = new SeitoSyousai();
+		ArrayList<SeitoSyousai> list = db.getSeitoSyousaiList();
+		
 		RequestDispatcher dispatch = request.getRequestDispatcher("ranking2.jsp");
 		dispatch.forward(request, response);
 		// TODO Auto-generated method stub
