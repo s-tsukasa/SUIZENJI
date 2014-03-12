@@ -289,8 +289,8 @@ public class SeisekiKanriDB {
 			String sql = "INSERT INTO test (tnamae,thi,kikan) VALUES (?,?,?)";
 			stmt = con.prepareStatement(sql);
 			stmt.setString(1,tnamae);
-			stmt.setTimestamp(1,thi);
-			stmt.setInt(1,kikan);
+			stmt.setTimestamp(2,thi);
+			stmt.setInt(3,kikan);
 			//	SQLの実行
 			int num = stmt.executeUpdate();
 			stmt.close();
