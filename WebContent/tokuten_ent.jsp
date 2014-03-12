@@ -12,24 +12,27 @@
 
 <form action="Tokuten_ent" method="POST" >
 試験名<select name="tnamae">
-<option value="A">中間</option>
-<option value="B">期末</option>
+<option value="12年度1学期中間試験">12年度1学期中間試験</option>
+<option value="12年度1学期期末試験">12年度1学期期末試験</option>
 </select>
 <br>教科<select name="ka">
-<option value="A">国語</option>
-<option value="B">英語</option>
+<option value="1">国語</option>
+<option value="2">数学</option>
 </select>
 <br>学年<select name="nen">
-<option value="A">1</option>
-<option value="B">2</option>
+<option value="1">1</option>
+<option value="2">2</option>
+<option value="3">3</option>
 </select>
 <br>組<select name="kyu">
 <option value="A">A</option>
 <option value="B">B</option>
+<option value="C">C</option>
 <br>
 <input type="submit" value="決定">
 </select>
 </form>
+
 
 <a href=index.html>トップメニューに戻る</a>
 </body>
