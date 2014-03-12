@@ -5,6 +5,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 
 public class SeisekiKanriDB {
@@ -33,7 +34,7 @@ public class SeisekiKanriDB {
 		ArrayList<Seito> list = new ArrayList<Seito>();
 		PreparedStatement stmt;
 		try {
-			stmt = con.prepareStatement("SELECT * from seito");
+			stmt = con.prepareStatement("SELECT * from seito WHERE delete_flag=0");
 			ResultSet rs = stmt.executeQuery();
 
 			while (rs.next()) {
@@ -51,16 +52,14 @@ public class SeisekiKanriDB {
 		}
 		return list;
 	}
-	public void insertSeito(String namae, int nen, int delete_flag) {
+	public void insertSeito(String namae, int nen) {
 		PreparedStatement stmt;
 		try {
 			//	プリペアードステートメント
-			String sql = "insert into seito (namae, nen, delete_flag) values (?, ?, ?)";
+			String sql = "insert into seito (namae, nen) values (?, ?)";
 			stmt = con.prepareStatement(sql);
 			stmt.setString(1, namae);
 			stmt.setInt(2,nen);
-			stmt.setInt(3,delete_flag);
-
 			//	SQLの実行
 			int num = stmt.executeUpdate();
 			stmt.close();
@@ -68,9 +67,38 @@ public class SeisekiKanriDB {
 			e.printStackTrace();
 		}
 	}
-	public void updateSeito() {
+	public void updateSeito(String namae,int sid) {
+		PreparedStatement stmt;
+		try {
+			//	プリペアードステートメント
+			String sql ="UPDATE seito SET namae=? WHERE sid=?";
+			stmt = con.prepareStatement(sql);
+			stmt.setString(1, namae);
+			stmt.setInt(2,sid);
+			//	SQLの実行
+			int num = stmt.executeUpdate();
+			stmt.close();
+		} catch (SQLException e) {
+			// TODO 自動生成された catch ブロック
+			e.printStackTrace();
+		}
+
+
 	}
-	public void deleteSeito() {
+	public void deleteSeito(int sid) {
+		PreparedStatement stmt;
+		try {
+			//	プリペアードステートメント
+			String sql ="UPDATE seito SET delete_flag=1 WHERE sid=?";
+			stmt = con.prepareStatement(sql);
+			stmt.setInt(1,sid);
+			//	SQLの実行
+			int num = stmt.executeUpdate();
+			stmt.close();
+		} catch (SQLException e) {
+			// TODO 自動生成された catch ブロック
+			e.printStackTrace();
+		}
 	}
 
 	//---------------------------------------------------------------
@@ -79,7 +107,7 @@ public class SeisekiKanriDB {
 		ArrayList<SeitoSyousai> list = new ArrayList<SeitoSyousai>();
 		PreparedStatement stmt;
 		try {
-			stmt = con.prepareStatement("SELECT * from seitosyousai");
+			stmt = con.prepareStatement("SELECT * from seitosyousai WHERE delete_flag=0");
 			ResultSet rs = stmt.executeQuery();
 
 			while (rs.next()) {
@@ -88,7 +116,7 @@ public class SeisekiKanriDB {
 				sd.setSid(rs.getInt("sid"));
 				sd.setNen(rs.getInt("nen"));
 				sd.setKyu(rs.getString("kyu"));
-				sd.setNen(rs.getInt("no"));
+				sd.setNo(rs.getInt("no"));
 				sd.setDelete_flag(rs.getInt("delete_flag"));
 				list.add(sd);
 			}
@@ -99,11 +127,55 @@ public class SeisekiKanriDB {
 		}
 		return list;
 	}
-	public void insertSeitoSyousai() {
+	public void insertSeitoSyousai(int sid,int nen,String kyu,int no) {
+		PreparedStatement stmt;
+		try {
+			//	プリペアードステートメント
+			String sql = "insert into seitosyousai (sid, nen, kyu, no) values (?, ?, ?, ?)";
+			stmt = con.prepareStatement(sql);
+			stmt.setInt(1, sid);
+			stmt.setInt(2,nen);
+			stmt.setString(3,kyu);
+			stmt.setInt(4,no);
+			//	SQLの実行
+			int num = stmt.executeUpdate();
+			stmt.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
-	public void updateSeitoSyousai() {
+	public void updateSeitoSyousai(int sid,int nen,String kyu,int no) {
+		PreparedStatement stmt;
+		try {
+			//	プリペアードステートメント
+			String sql ="UPDATE seitosyousai SET nen=?,kyu=?,no=? WHERE sid=?";
+			stmt = con.prepareStatement(sql);
+			stmt.setInt(1,nen);
+			stmt.setString(2, kyu);
+			stmt.setInt(3,no);
+			stmt.setInt(4,sid);
+			//	SQLの実行
+			int num = stmt.executeUpdate();
+			stmt.close();
+		} catch (SQLException e) {
+			// TODO 自動生成された catch ブロック
+			e.printStackTrace();
+		}
 	}
-	public void deleteSeitoSyousai() {
+	public void deleteSeitoSyousai(int sid) {
+		PreparedStatement stmt;
+		try {
+			//	プリペアードステートメント
+			String sql ="UPDATE seitosyousai SET delete_flag=1 WHERE sid=?";
+			stmt = con.prepareStatement(sql);
+			stmt.setInt(1,sid);
+			//	SQLの実行
+			int num = stmt.executeUpdate();
+			stmt.close();
+		} catch (SQLException e) {
+			// TODO 自動生成された catch ブロック
+			e.printStackTrace();
+		}
 	}
 
 	//---------------------------------------------------------------
@@ -129,11 +201,60 @@ public class SeisekiKanriDB {
 		}
 		return list;
 	}
-	public void insertKyouka() {
+	public void insertKyouka(String ka) {
+		PreparedStatement stmt;
+		try {
+			//	プリペアードステートメント
+			String sql = "insert into kyouka (ka) values (?)";
+			stmt = con.prepareStatement(sql);
+			stmt.setString(1,ka);
+			//	SQLの実行
+			int num = stmt.executeUpdate();
+			stmt.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
-	public void updateKyouka() {
+	public void updateKyouka(int kid,String ka) {
+		PreparedStatement stmt;
+		try {
+			//	もとあった教科にdelフラグをつける
+			String sql ="UPDATE kyouka SET delete_flag=1 WHERE kid=?";
+			stmt = con.prepareStatement(sql);
+			stmt.setString(1,ka);
+			//	SQLの実行
+			int num = stmt.executeUpdate();
+			stmt.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		try {
+			//新たな教科を追加する。
+			String sql = "insert into kyouka (ka) values (?)";
+			stmt = con.prepareStatement(sql);
+			stmt.setString(1,ka);
+			//	SQLの実行
+			int num = stmt.executeUpdate();
+
+			stmt.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
-	public void deleteKyouka() {
+	public void deleteKyouka(int kid) {
+		PreparedStatement stmt;
+		try {
+			//	プリペアードステートメント
+			String sql ="UPDATE kyouka SET delete_flag=1 WHERE kid=?";
+			stmt = con.prepareStatement(sql);
+			stmt.setInt(1,kid);
+			//	SQLの実行
+			int num = stmt.executeUpdate();
+			stmt.close();
+		} catch (SQLException e) {
+			// TODO 自動生成された catch ブロック
+			e.printStackTrace();
+		}
 	}
 
 	//---------------------------------------------------------------
@@ -161,11 +282,54 @@ public class SeisekiKanriDB {
 		}
 		return list;
 	}
-	public void insertTest() {
+	public void insertTest(String tnamae,Timestamp thi,int kikan) {
+		PreparedStatement stmt;
+		try {
+			//	プリペアードステートメント
+			String sql = "INSERT INTO test (tnamae,thi,kikan) VALUES (?,?,?)";
+			stmt = con.prepareStatement(sql);
+			stmt.setString(1,tnamae);
+			stmt.setTimestamp(1,thi);
+			stmt.setInt(1,kikan);
+			//	SQLの実行
+			int num = stmt.executeUpdate();
+			stmt.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
-	public void updateTest() {
+	public void updateTest(int tid,String tnamae,Timestamp thi,int kikan) {
+		PreparedStatement stmt;
+		try {
+			//	プリペアードステートメント
+			String sql ="UPDATE test SET tnamae=?,thi=?,kikan=? WHERE tid=?";
+			stmt = con.prepareStatement(sql);
+			stmt.setString(1,tnamae);
+			stmt.setTimestamp(2, thi);
+			stmt.setInt(3,kikan);
+			stmt.setInt(4,tid);
+			//	SQLの実行
+			int num = stmt.executeUpdate();
+			stmt.close();
+		} catch (SQLException e) {
+			// TODO 自動生成された catch ブロック
+			e.printStackTrace();
+		}
 	}
-	public void deleteTest() {
+	public void deleteTest(int tid) {
+		PreparedStatement stmt;
+		try {
+			//	プリペアードステートメント
+			String sql ="UPDATE test SET delete_flag=1 WHERE tid=?";
+			stmt = con.prepareStatement(sql);
+			stmt.setInt(1,tid);
+			//	SQLの実行
+			int num = stmt.executeUpdate();
+			stmt.close();
+		} catch (SQLException e) {
+			// TODO 自動生成された catch ブロック
+			e.printStackTrace();
+		}
 	}
 
 	//---------------------------------------------------------------
@@ -192,11 +356,51 @@ public class SeisekiKanriDB {
 		}
 		return list;
 	}
-	public void insertTestSyousai() {
+	public void insertTestSyousai(int tid,int kid) {
+		PreparedStatement stmt;
+		try {
+			//	プリペアードステートメント
+			String sql = "insert into testsyousai (tid,kid) values (?,?)";
+			stmt = con.prepareStatement(sql);
+			stmt.setInt(1,tid);
+			stmt.setInt(2,kid);
+			//	SQLの実行
+			int num = stmt.executeUpdate();
+			stmt.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
-	public void updateTestSyousai() {
+	public void updateTestSyousai(int tdid,int kid) {
+		PreparedStatement stmt;
+		try {
+			//	プリペアードステートメント
+			String sql ="UPDATE testsyousai SET kid=? WHERE tdid=?";
+			stmt = con.prepareStatement(sql);
+			stmt.setInt(1,tdid);
+			stmt.setInt(2,kid);
+			//	SQLの実行
+			int num = stmt.executeUpdate();
+			stmt.close();
+		} catch (SQLException e) {
+			// TODO 自動生成された catch ブロック
+			e.printStackTrace();
+		}
 	}
-	public void deleteTestSyousai() {
+	public void deleteTestSyousai(int tdid) {
+		PreparedStatement stmt;
+		try {
+			//	プリペアードステートメント
+			String sql ="UPDATE test SET delete_flag=1 WHERE tdid=?";
+			stmt = con.prepareStatement(sql);
+			stmt.setInt(1,tdid);
+			//	SQLの実行
+			int num = stmt.executeUpdate();
+			stmt.close();
+		} catch (SQLException e) {
+			// TODO 自動生成された catch ブロック
+			e.printStackTrace();
+		}
 	}
 
 	//---------------------------------------------------------------
@@ -224,10 +428,51 @@ public class SeisekiKanriDB {
 		}
 		return list;
 	}
-	public void insertTokuten() {
+	public void insertTokuten(int sid,int tdid,int ten) {
+		PreparedStatement stmt;
+		try {
+			//	プリペアードステートメント
+			String sql = "insert into tokuten (sid,tdid,ten) values (?,?,?)";
+			stmt = con.prepareStatement(sql);
+			stmt.setInt(1,sid);
+			stmt.setInt(2,tdid);
+			stmt.setInt(3,ten);
+			//	SQLの実行
+			int num = stmt.executeUpdate();
+			stmt.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
-	public void updateTokuten() {
+	public void updateTokuten(int tenid,int ten) {
+		PreparedStatement stmt;
+		try {
+			//	プリペアードステートメント
+			String sql ="UPDATE tokuten SET ten=? WHERE tenid=?";
+			stmt = con.prepareStatement(sql);
+			stmt.setInt(1,ten);
+			stmt.setInt(2,tenid);
+			//	SQLの実行
+			int num = stmt.executeUpdate();
+			stmt.close();
+		} catch (SQLException e) {
+			// TODO 自動生成された catch ブロック
+			e.printStackTrace();
+		}
 	}
-	public void deleteTokuten() {
+	public void deleteTokuten(int tenid) {
+		PreparedStatement stmt;
+		try {
+			//	プリペアードステートメント
+			String sql ="UPDATE tokuten SET delete_flag=1 WHERE tenid=?";
+			stmt = con.prepareStatement(sql);
+			stmt.setInt(1,tenid);
+			//	SQLの実行
+			int num = stmt.executeUpdate();
+			stmt.close();
+		} catch (SQLException e) {
+			// TODO 自動生成された catch ブロック
+			e.printStackTrace();
+		}
 	}
 }
