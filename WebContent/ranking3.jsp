@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+    pageEncoding="UTF-8" import="Serv.*,java.util.*" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -8,7 +8,13 @@
 <link rel="stylesheet" href="my.css" content="text/css">
 </head>
 <body>
-<h2>工事中</h2>
+<h2>工事中です！</h2>
+
+<%
+//SeisekiKanriDB db = new SeisekiKanriDB();
+//ArrayList<Test> list = db.getTestList();
+//db.close();
+%>
 
 <form action="Ranking3" method="POST" >
 試験名<select name="tnamae">
@@ -32,9 +38,32 @@
 </select>
 </form>
 
+<!--
 <table>
 <tr><th  rowspan=2>試験名</th><th colspan=2>総合</th><tr>
 <tr><th>中間試験</th><th>得点</th><th>順位</th></tr>
+</table>
+-->
+
+<%
+ArrayList<RankTableTest> list = (ArrayList<RankTableTest>)request.getAttribute("tlist");
+%>
+
+<table>
+<tr><th>順位</th><th>得点</th><th>組</th><th>名前</th></tr>
+<%
+if(list != null) {
+	for(RankTableTest r : list) {
+%>
+<tr>
+<td><%= r.getRank()  %></td>
+<td><%= r.getTen()   %></td>
+<td><%= r.getKyu()   %></td>
+<td><%= r.getNamae() %></td>
+</tr>
+<% }
+}
+%>
 </table>
 
 </body>
