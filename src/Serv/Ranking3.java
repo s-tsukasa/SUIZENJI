@@ -2,6 +2,8 @@ package Serv;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -85,25 +87,23 @@ public class Ranking3 extends HttpServlet {
 		r3.setNamae("関川雄太");
 		list.add(r3);
 
-
 		// 点数でソート
+		Collections.sort(list, new CompTokuten());
 
 		// ループして順位をセット
-
-
-
-
-		// Debug
-		/*
-		for(int i = 1; i <= 5; i++) {
-			RankTableTest r = new RankTableTest();
-			r.setRank(i);
-			r.setTen(500 - i);
-			r.setKyu("A");
-			r.setNamae("田中");
-			list.add(r);
+		int no      = 0; // 順位
+		int ten_old = -1; // １つ前の得点 マイナス得点なしの前提
+		int ten_new = -1; // 今の得点
+		for(RankTableTest ra : list) {
+			ten_new = ra.getTen();
+			if(ten_old != ten_new) {	// １回目は必ず異なるため順位は１となる。
+				no++;
+			}
+			ra.setRank(no);
+			ten_old = ten_new;
 		}
-		*/
+
+		// 順位データをセット
 		request.setAttribute("tlist", list);
 
 		RequestDispatcher dispatch = request.getRequestDispatcher("ranking3.jsp");
@@ -112,4 +112,26 @@ public class Ranking3 extends HttpServlet {
 		// TODO Auto-generated method stub
 	}
 
+	// RankTableTest内の点数で比較する関数
+	public class CompTokuten implements Comparator<RankTableTest> {
+
+	    //比較メソッド（データクラスを比較して-1, 0, 1を返すように記述する）
+	    public int compare(RankTableTest a, RankTableTest b) {
+	        int ten1 = a.getTen();
+	        int ten2 = b.getTen();
+
+	        //点数の降順でソート
+	        if (ten1 > ten2) {
+	            return -1;
+
+	        } else if (ten1 == ten2) {
+	            return 0;
+
+	        } else {
+	            return 1;
+
+	        }
+	    }
+
+	}
 }
