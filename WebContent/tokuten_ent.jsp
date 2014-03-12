@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+    pageEncoding="UTF-8" import="Serv.*,java.util.*" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -31,6 +31,26 @@
 <br>
 <input type="submit" value="決定">
 </select>
+</form>
+
+<%
+ArrayList<Seito> list = (ArrayList<Seito>)request.getAttribute("slist");
+%>
+
+<form action="Touroku_end" method="POST" >
+<%
+int i = 0;
+//if(list != null) {
+//	for(Seito s : list) {
+	for(i=0;i<10;i++) {
+%>
+	<%= i  %> 	<%= i+2 %>  <input type = "text" name = "ten<%=i %>"><input type="hidden" name="sid<%=i %> value="<%=i %>"><br>
+<% }
+//}
+%>
+<input type="hidden" name="mode" value=1>
+<input type="submit" value="登録">
+
 </form>
 
 
