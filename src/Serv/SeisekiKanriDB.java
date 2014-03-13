@@ -28,6 +28,210 @@ public class SeisekiKanriDB {
 			e.printStackTrace();
 		}
 	}
+	//得点リスト作成 seitosyousai testsyousai test
+	//学年、学級、テストID、教科IDからリストを返す
+	public ArrayList<TokutenTbl> getTokutenTblList(int nen1,String kyu1,int tid1,int kid1) {
+		ArrayList<TokutenTbl> list = new ArrayList<TokutenTbl>();
+		PreparedStatement stmt;
+		try {
+			stmt = con.prepareStatement("SELECT no,namae,seitosyousai.sid,seitosyousai.nen,kyu,tid,kid,ten FROM "
+					+ "((seitosyousai LEFT JOIN tokuten on seitosyousai.sid = tokuten.sid) "
+					+ "JOIN testsyousai ON tokuten.tdid=testsyousai.tdid)"
+					+ "JOIN seito ON seito.sid=seitosyousai.sid"
+					+ " WHERE seitosyousai.nen = ? AND  kyu=? AND tid=? AND kid = ? AND seitosyousai.delete_flag=0 ORDER BY ten DESC");
+
+			stmt.setInt(1, nen1);
+			stmt.setString(2,kyu1);
+			stmt.setInt(3, tid1);
+			stmt.setInt(4, kid1);
+			ResultSet rs = stmt.executeQuery();
+
+			while (rs.next()) {
+				TokutenTbl se = new TokutenTbl();
+				se.setSid(rs.getInt("seitosyousai.sid"));
+				se.setKyu(rs.getString("kyu"));
+				se.setNamae(rs.getString("namae"));
+				se.setGakunen(rs.getInt("seitosyousai.nen"));
+				se.setNo(rs.getInt("no"));
+				se.setTid(rs.getInt("tid"));
+				se.setKid(rs.getInt("kid"));
+				se.setTen(rs.getInt("ten"));
+				list.add(se);
+			}
+			rs.close();
+			stmt.close();
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}
+		return list;
+	}
+	//学年、学級、テストIDからリストを返す。点数はテストの合計点
+	public ArrayList<TokutenTbl> getTokutenTblList(int nen1,String kyu1,int tid1) {
+		ArrayList<TokutenTbl> list = new ArrayList<TokutenTbl>();
+		PreparedStatement stmt;
+		try {
+			stmt = con.prepareStatement("SELECT no,namae,seitosyousai.sid,seitosyousai.nen,kyu,tid,kid,sum(ten) FROM "
+					+ "((seitosyousai LEFT JOIN tokuten on seitosyousai.sid = tokuten.sid) "
+					+ "JOIN testsyousai ON tokuten.tdid=testsyousai.tdid)"
+					+ "JOIN seito ON seito.sid=seitosyousai.sid"
+					+ " WHERE seitosyousai.nen = ? AND  kyu=? AND tid=? AND seitosyousai.delete_flag=0 group by sid ORDER BY sum(ten) DESC");
+
+			stmt.setInt(1, nen1);
+			stmt.setString(2,kyu1);
+			stmt.setInt(3, tid1);
+			ResultSet rs = stmt.executeQuery();
+
+			while (rs.next()) {
+				TokutenTbl se = new TokutenTbl();
+				se.setSid(rs.getInt("seitosyousai.sid"));
+				se.setKyu(rs.getString("kyu"));
+				se.setNamae(rs.getString("namae"));
+				se.setGakunen(rs.getInt("seitosyousai.nen"));
+				se.setNo(rs.getInt("no"));
+				se.setTid(rs.getInt("tid"));
+				se.setKid(0);
+				se.setTen(rs.getInt("sum(ten)"));
+				list.add(se);
+			}
+			rs.close();
+			stmt.close();
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}
+		return list;
+	}
+	//学年、テストID、教科IDからリストを返す、学年全体のリストが帰ってくる
+	public ArrayList<TokutenTbl> getTokutenTblList(int nen1,int tid1,int kid1) {
+		ArrayList<TokutenTbl> list = new ArrayList<TokutenTbl>();
+		PreparedStatement stmt;
+		try {
+			stmt = con.prepareStatement("SELECT no,namae,seitosyousai.sid,seitosyousai.nen,kyu,tid,kid,ten FROM "
+					+ "((seitosyousai LEFT JOIN tokuten on seitosyousai.sid = tokuten.sid) "
+					+ "JOIN testsyousai ON tokuten.tdid=testsyousai.tdid)"
+					+ "JOIN seito ON seito.sid=seitosyousai.sid"
+					+ " WHERE seitosyousai.nen = ? AND  kid=? AND tid=? AND seitosyousai.delete_flag=0 group by sid ORDER BY ten DESC");
+
+			stmt.setInt(1, nen1);
+			stmt.setInt(2, kid1);
+			stmt.setInt(3, tid1);
+			ResultSet rs = stmt.executeQuery();
+
+			while (rs.next()) {
+				TokutenTbl se = new TokutenTbl();
+				se.setSid(rs.getInt("seitosyousai.sid"));
+				se.setKyu(rs.getString("kyu"));
+				se.setNamae(rs.getString("namae"));
+				se.setGakunen(rs.getInt("seitosyousai.nen"));
+				se.setNo(rs.getInt("no"));
+				se.setTid(rs.getInt("tid"));
+				se.setKid(rs.getInt("kid"));
+				se.setTen(rs.getInt("ten"));
+				list.add(se);
+			}
+			rs.close();
+			stmt.close();
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}
+		return list;
+	}
+	//学年、テストID、合計点の学年毎の順位が帰ってくる。
+	public ArrayList<TokutenTbl> getTokutenTblList(int nen1,int tid1) {
+		ArrayList<TokutenTbl> list = new ArrayList<TokutenTbl>();
+		PreparedStatement stmt;
+		try {
+			stmt = con.prepareStatement("SELECT no,namae,seitosyousai.sid,seitosyousai.nen,kyu,tid,kid,sum(ten) FROM "
+					+ "((seitosyousai LEFT JOIN tokuten on seitosyousai.sid = tokuten.sid) "
+					+ "JOIN testsyousai ON tokuten.tdid=testsyousai.tdid)"
+					+ "JOIN seito ON seito.sid=seitosyousai.sid"
+					+ " WHERE seitosyousai.nen = ? AND  tid=? AND seitosyousai.delete_flag=0 group by sid ORDER BY sum(ten) DESC");
+
+			stmt.setInt(1, nen1);
+			stmt.setInt(2, tid1);
+			ResultSet rs = stmt.executeQuery();
+
+			while (rs.next()) {
+				TokutenTbl se = new TokutenTbl();
+				se.setSid(rs.getInt("seitosyousai.sid"));
+				se.setKyu(rs.getString("kyu"));
+				se.setNamae(rs.getString("namae"));
+				se.setGakunen(rs.getInt("seitosyousai.nen"));
+				se.setNo(rs.getInt("no"));
+				se.setTid(rs.getInt("tid"));
+				se.setKid(0);
+				se.setTen(rs.getInt("sum(ten)"));
+				list.add(se);
+			}
+			rs.close();
+			stmt.close();
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}
+		return list;
+	}
+
+	//生徒ID、教科IDで生徒の成績一覧を出す。教科ごと
+	public ArrayList<TokutenTbl2> getTokutenTbl2List(int sid1,int kid1) {
+		ArrayList<TokutenTbl2> list = new ArrayList<TokutenTbl2>();
+		PreparedStatement stmt;
+		try {
+			stmt = con.prepareStatement("SELECT seito.sid,namae,tnamae,testsyousai.tid,kid,ten FROM "
+										+"((seito LEFT join tokuten on seito.sid=tokuten.sid) "
+										+ "JOIN testsyousai ON tokuten.tdid=testsyousai.tdid) "
+										+ "JOIN test on testsyousai.tid=test.tid WHERE seito.sid=? "
+										+ "AND testsyousai.kid=?");
+			stmt.setInt(1, sid1);
+			stmt.setInt(2, kid1);
+			ResultSet rs = stmt.executeQuery();
+
+			while (rs.next()) {
+				TokutenTbl2 se = new TokutenTbl2();
+				se.setSid(rs.getInt("seito.sid"));
+				se.setNamae(rs.getString("namae"));
+				se.setTnamae(rs.getString("tnamae"));
+				se.setTid(rs.getInt("testsyousai.tid"));
+				se.setKid(rs.getInt("kid"));
+				se.setTen(rs.getInt("ten"));
+				list.add(se);
+			}
+			rs.close();
+			stmt.close();
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}
+		return list;
+	}
+	//生徒IDで成績一覧をだす。総合点
+	public ArrayList<TokutenTbl2> getTokutenTbl2List(int sid1) {
+		ArrayList<TokutenTbl2> list = new ArrayList<TokutenTbl2>();
+		PreparedStatement stmt;
+		try {
+			stmt = con.prepareStatement("SELECT seito.sid,namae,tnamae,testsyousai.tid,kid,sum(ten) FROM "
+										+"((seito LEFT join tokuten on seito.sid=tokuten.sid) "
+										+ "JOIN testsyousai ON tokuten.tdid=testsyousai.tdid) "
+										+ "JOIN test on testsyousai.tid=test.tid WHERE seito.sid=? "
+										+ "group by testsyousai.tid ");
+			stmt.setInt(1, sid1);
+			ResultSet rs = stmt.executeQuery();
+
+			while (rs.next()) {
+				TokutenTbl2 se = new TokutenTbl2();
+				se.setSid(rs.getInt("seito.sid"));
+				se.setNamae(rs.getString("namae"));
+				se.setTnamae(rs.getString("tnamae"));
+				se.setTid(rs.getInt("testsyousai.tid"));
+				se.setKid(0);
+				se.setTen(rs.getInt("sum(ten)"));
+				list.add(se);
+			}
+			rs.close();
+			stmt.close();
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}
+		return list;
+	}
+
 	//---------------------------------------------------------------
 	//seito seitosyousai merge
 	public ArrayList<SeitoAll> getSeitoAllList() {

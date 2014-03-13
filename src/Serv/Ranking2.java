@@ -16,7 +16,7 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet("/Ranking2")
 public class Ranking2 extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
+
     /**
      * @see HttpServlet#HttpServlet()
      */
@@ -36,9 +36,11 @@ public class Ranking2 extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		SeitoSyousai db = new SeitoSyousai();
-		ArrayList<SeitoSyousai> list = db.getSeitoSyousaiList();
-		
+		SeisekiKanriDB db = new SeisekiKanriDB();
+		ArrayList<SeitoAll> list = db.getSeitoAllList();
+		db.close();
+
+		request.setAttribute("slist", list);
 		RequestDispatcher dispatch = request.getRequestDispatcher("ranking2.jsp");
 		dispatch.forward(request, response);
 		// TODO Auto-generated method stub
