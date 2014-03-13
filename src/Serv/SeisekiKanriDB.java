@@ -38,7 +38,8 @@ public class SeisekiKanriDB {
 					+ "((seitosyousai LEFT JOIN tokuten on seitosyousai.sid = tokuten.sid) "
 					+ "JOIN testsyousai ON tokuten.tdid=testsyousai.tdid)"
 					+ "JOIN seito ON seito.sid=seitosyousai.sid"
-					+ " WHERE seitosyousai.nen = ? AND  kyu=? AND tid=? AND kid = ? AND seitosyousai.delete_flag=0 ORDER BY ten DESC");
+					+ " WHERE seitosyousai.nen = ? AND  kyu=? AND tid=? AND kid = ? "
+					+ "AND seitosyousai.delete_flag=0 ORDER BY ten DESC");
 
 			stmt.setInt(1, nen1);
 			stmt.setString(2,kyu1);
@@ -74,7 +75,8 @@ public class SeisekiKanriDB {
 					+ "((seitosyousai LEFT JOIN tokuten on seitosyousai.sid = tokuten.sid) "
 					+ "JOIN testsyousai ON tokuten.tdid=testsyousai.tdid)"
 					+ "JOIN seito ON seito.sid=seitosyousai.sid"
-					+ " WHERE seitosyousai.nen = ? AND  kyu=? AND tid=? AND seitosyousai.delete_flag=0 group by sid ORDER BY sum(ten) DESC");
+					+ " WHERE seitosyousai.nen = ? AND  kyu=? AND tid=? AND seitosyousai.delete_flag=0 "
+					+ "group by sid ORDER BY sum(ten) DESC");
 
 			stmt.setInt(1, nen1);
 			stmt.setString(2,kyu1);
@@ -109,7 +111,8 @@ public class SeisekiKanriDB {
 					+ "((seitosyousai LEFT JOIN tokuten on seitosyousai.sid = tokuten.sid) "
 					+ "JOIN testsyousai ON tokuten.tdid=testsyousai.tdid)"
 					+ "JOIN seito ON seito.sid=seitosyousai.sid"
-					+ " WHERE seitosyousai.nen = ? AND  kid=? AND tid=? AND seitosyousai.delete_flag=0 group by sid ORDER BY ten DESC");
+					+ " WHERE seitosyousai.nen = ? AND  kid=? AND tid=? AND seitosyousai.delete_flag=0 "
+					+ "group by sid ORDER BY ten DESC");
 
 			stmt.setInt(1, nen1);
 			stmt.setInt(2, kid1);
@@ -144,7 +147,8 @@ public class SeisekiKanriDB {
 					+ "((seitosyousai LEFT JOIN tokuten on seitosyousai.sid = tokuten.sid) "
 					+ "JOIN testsyousai ON tokuten.tdid=testsyousai.tdid)"
 					+ "JOIN seito ON seito.sid=seitosyousai.sid"
-					+ " WHERE seitosyousai.nen = ? AND  tid=? AND seitosyousai.delete_flag=0 group by sid ORDER BY sum(ten) DESC");
+					+ " WHERE seitosyousai.nen = ? AND  tid=? AND seitosyousai.delete_flag=0 "
+					+ "group by sid ORDER BY sum(ten) DESC");
 
 			stmt.setInt(1, nen1);
 			stmt.setInt(2, tid1);
@@ -237,7 +241,8 @@ public class SeisekiKanriDB {
 		ArrayList<SeitoAll> list = new ArrayList<SeitoAll>();
 		PreparedStatement stmt;
 		try {
-			stmt = con.prepareStatement("SELECT * from seito LEFT JOIN seitosyousai ON seito.sid=seitosyousai.sid WHERE seito.delete_flag=0");
+			stmt = con.prepareStatement("SELECT * from seito LEFT JOIN seitosyousai ON seito.sid=seitosyousai.sid "
+										+ "WHERE seitosyousai.delete_flag=0");
 			ResultSet rs = stmt.executeQuery();
 
 			while (rs.next()) {
