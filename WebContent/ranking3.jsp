@@ -10,23 +10,16 @@
 <body>
 <h1>個人別成績表示</h1>
 
-<h2>工事中です！！</h2>
-
 <%
-//SeisekiKanriDB db = new SeisekiKanriDB();
-//ArrayList<Test> list = db.getTestList();
-//db.close();
-%>
-<%
-ArrayList<String> tname = (ArrayList<String>)request.getAttribute("tlist");	// 試験名リスト
+ArrayList<Test>   tname = (ArrayList<Test>)request.getAttribute("tlist");	// 試験名リスト
 ArrayList<String> nname = (ArrayList<String>)request.getAttribute("nlist");	// 学年名リスト
 ArrayList<String> mname = (ArrayList<String>)request.getAttribute("mlist");	// 学級名リスト
-ArrayList<String> kname = (ArrayList<String>)request.getAttribute("klist");	// 教科名リスト
+ArrayList<Kyouka> kname = (ArrayList<Kyouka>)request.getAttribute("klist");	// 教科名リスト
 String avg  = (String)request.getAttribute("avg");	// 平均点
-String tval = (String)request.getAttribute("tval");	// 指定された試験名
+int    tval = Integer.parseInt((String)request.getAttribute("tval"));	// 指定された試験名
 String nval = (String)request.getAttribute("nval");	// 指定された学年
 String mval = (String)request.getAttribute("mval");	// 指定された学級
-String kval = (String)request.getAttribute("kval");	// 指定された教科
+int    kval = Integer.parseInt((String)request.getAttribute("kval"));	// 指定された教科
 %>
 <!--
 20xx年度<br>
@@ -34,22 +27,22 @@ String kval = (String)request.getAttribute("kval");	// 指定された教科
 学年 <%= nval %><br>
 学級 <%= mval %><br>
 教科 <%= kval %><br>
- -->
+-->
+
 <form action="Ranking3" method="POST" >
 試験名<select name="tnamae">
-<% for(String tn : tname) { %>
-<% if(tn.equals(tval)) { %>
-		<option value="<%= tn %>" selected><%= tn %></option>
+<% for(Test tn : tname) { %>
+<% if(tn.getTid() == tval) { %>
+		<option value="<%= tn.getTid() %>" selected><%= tn.getTnamae() %></option>
 <% }
    else { %>
-   		<option value="<%= tn %>"><%= tn %></option>
+   		<option value="<%= tn.getTid() %>"><%= tn.getTnamae() %></option>
 <% } %>
 <% } %>
 </select>
 <br>
 <!-- 1から3年に固定 -->
 学年<select name="nen">
-
 <% for(String nn : nname) { %>
 <% 	if(nn.equals(nval)) { %>
 		<option value="<%= nn %>" selected><%= nn %></option>
@@ -70,23 +63,25 @@ String kval = (String)request.getAttribute("kval");	// 指定された教科
 <% } %>
 </select>
 教科<select name="ka">
-<% for(String kn : kname) { %>
-<% 	if(kn.equals(kval)) { %>
-		<option value="<%= kn %>" selected><%= kn %></option>
+<% for(Kyouka kn : kname) { %>
+<% 	if(kn.getKid() == kval) { %>
+		<option value="<%= kn.getKid() %>" selected><%= kn.getKa() %></option>
 <% 	}
  	else { %>
-		<option value="<%= kn %>"><%= kn %></option>
+		<option value="<%= kn.getKid() %>"><%= kn.getKa() %></option>
 <% 	} %>
 <% } %>
 </select>
 <input type="submit" value="決定">
 </form>
+<br>
 <% if(avg != null) { %>
-	平均点 <%=avg %>
+	平均点 <%=avg %> <br>
 <% } else { %>
-	平均点
+	平均点 <br>
 <%} %>
 
+<br>
 
 <%
 ArrayList<RankTableTest> list = (ArrayList<RankTableTest>)request.getAttribute("tablelist");
