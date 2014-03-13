@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8" import="Serv.SeitoAll,java.util.*"%>
+    pageEncoding="UTF-8" import="Serv.TokutenTbl2,java.util.*"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -11,7 +11,7 @@
 <p>生徒を選択してください</p>
 
 <%
-ArrayList<SeitoAll> list = (ArrayList<SeitoAll>)request.getAttribute("slist");
+ArrayList<TokutenTbl2> list = (ArrayList<TokutenTbl2>)request.getAttribute("slist");
 
 int nen=Integer.parseInt((String)request.getAttribute("nen"));
 String kyu=(String)request.getAttribute("kyu");
@@ -21,19 +21,23 @@ String kyu=(String)request.getAttribute("kyu");
 
 <p>学年<%=nen%>  学級<%=kyu%></p>
 <br>
+<table>
 
-<form action="Ranking2_2" method="POST" >
-<input type="hidden" name="nen" value="<%=nen %>">
-<input type="hidden" name="kyu" value="<%=kyu %>">
-<br>名前<select name="sid">
+<tr>
+<td>名前</td>
+<td>テスト名</td>
+<td>得点</td>
+</tr>
 
-<%for (SeitoAll s:list){ %>
-<option value="<%=s.getSid()%>"> <%=s.getNamae() %> </option>
+<% list.get(0); %>
+<% for (TokutenTbl2 s:list){ %>
+
+<tr>
+<td><%= s.getNamae() %></td>
+<td><%= s.getTnamae() %></td>
+<td><%= s.getTen() %></td>
+</tr>
 <% } %>
-</select>
-<input type="submit" value="決定">
-</form>
-
 </table>
 
 </body>

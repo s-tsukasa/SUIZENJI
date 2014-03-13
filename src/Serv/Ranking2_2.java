@@ -11,16 +11,16 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * Servlet implementation class Ranking2
+ * Servlet implementation class Ranking2_2
  */
-@WebServlet("/Ranking2")
-public class Ranking2 extends HttpServlet {
+@WebServlet("/Ranking2_2")
+public class Ranking2_2 extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public Ranking2() {
+    public Ranking2_2() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -36,18 +36,19 @@ public class Ranking2 extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		int sid = Integer.parseInt(request.getParameter("sid"));
 		int nen = Integer.parseInt(request.getParameter("nen"));
 		String kyu=request.getParameter("kyu");
 
 		SeisekiKanriDB db = new SeisekiKanriDB();
-		ArrayList<SeitoAll> list = db.getSeitoAllList(nen,kyu);
+		ArrayList<TokutenTbl2> list = db.getTokutenTbl2List(sid);
 		db.close();
 
 		request.setAttribute("slist", list);
 		request.setAttribute("nen", Integer.toString(nen));
 		request.setAttribute("kyu", kyu);
 
-		RequestDispatcher dispatch = request.getRequestDispatcher("ranking2.jsp");
+		RequestDispatcher dispatch = request.getRequestDispatcher("ranking2_2.jsp");
 		dispatch.forward(request, response);
 		// TODO Auto-generated method stub
 	}

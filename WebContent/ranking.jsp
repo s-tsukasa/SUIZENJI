@@ -25,10 +25,5 @@
 </select>
 </form>
 
-<table>
-<tr><th  rowspan=2>試験名</th><th colspan=2>総合</th></tr>
-<tr><th>中間試験</th><th>得点</th><th>順位</th></tr>
-</table>
-
 </body>
 </html>
