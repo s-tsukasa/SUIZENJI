@@ -39,12 +39,12 @@ public class Tourokuend extends HttpServlet {
 		// TODO Auto-generated method stub
 		int tid = Integer.parseInt(request.getParameter("tid"));
 		int kid = Integer.parseInt(request.getParameter("kid"));
-		int sid = Integer.parseInt(request.getParameter("sid"));
+		String mode = request.getParameter("mode");
 		int num = Integer.parseInt(request.getParameter("num"));
-		String str;
+		String str_sid;
+		String str_ten;
 
 		SeisekiKanriDB db = new SeisekiKanriDB();
-//		ArrayList<TestSyousai> tlist = db.getTestSyousaiList(tid,kid);
 //		ArrayList<Tokuten> tenlist = db.getTokutenList(sid,tlist);
 		ArrayList<TestSyousai> tlist = db.getTestSyousaiList();
 		ArrayList<Tokuten> tenlist = db.getTokutenList();
@@ -53,22 +53,17 @@ public class Tourokuend extends HttpServlet {
 		// 処理
 		ArrayList<SeitoAll> slist = new ArrayList<SeitoAll>();
 		for(int i=0;i<num;i++) {
-			str =
-			db.insertTokuten(sid, tdid, ten);
+			str_sid = "sid" + i;
+			str_ten = "ten" + i;
+//			ArrayList<TestSyousai> tlist = db.getTestSyousaiList(tid,kid);
+//			db.insertTokuten(Integer.parseInt(request.getParameter(str_sid)), tlist.get(0).getTdid(), Integer.parseInt(request.getParameter(str_ten)));
 		}
 		db.close();
 
-		request.setAttribute("tid", Integer.toString(tid));
-		request.setAttribute("kid", Integer.toString(kid));
-		request.setAttribute("nen", Integer.toString(nen));
-		request.setAttribute("kyu", kyu);
-
-		request.setAttribute("tlist", tlist);
-		request.setAttribute("klist", klist);
-		request.setAttribute("slist", slist);
+		request.setAttribute("mode", mode);
 
 		// 処理を"test.jsp"に処理を受け渡す
-		RequestDispatcher dispatch = request.getRequestDispatcher("tokuten_ent.jsp");
+		RequestDispatcher dispatch = request.getRequestDispatcher("tourokuend.jsp");
 		dispatch.forward(request, response);
 	}
 

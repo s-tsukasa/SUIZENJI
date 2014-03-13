@@ -9,7 +9,7 @@
 <link rel="stylesheet" href="my.css" content="text/css">
 </head>
 <body>
-<h2>工事中</h2>
+<h2>試験得点入力画面</h2>
 
 <%
 ArrayList<SeitoAll> slist = (ArrayList<SeitoAll>)request.getAttribute("slist");
@@ -101,6 +101,7 @@ if(slist != null) {
 %>
 <input type="hidden" name="tid" value="<%=tid %>">
 <input type="hidden" name="kid" value="<%=kid %>">
+<input type="hidden" name="num" value="<%=i %>">
 <input type="hidden" name="mode" value=1>
 <input type="submit" value="登録">
 

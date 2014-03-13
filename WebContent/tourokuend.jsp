@@ -9,7 +9,11 @@
 <body>
 
 <h2>登録完了しました。</h2>
+<%
+int mode = Integer.parseInt((String)request.getAttribute("mode"));
+%>
 
+<%=mode %>
 <a href="index.html">トップメニューに戻る</a>
 
 </body>
