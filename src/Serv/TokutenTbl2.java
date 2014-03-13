@@ -10,8 +10,17 @@ public class TokutenTbl2 {
 	private int tid;
 	private int kid;
 	private String tnamae;
+	private String ka;
 
 
+
+
+	public String getKa() {
+		return ka;
+	}
+	public void setKa(String ka) {
+		this.ka = ka;
+	}
 	public String getTnamae() {
 		return tnamae;
 	}

@@ -175,13 +175,12 @@ public class SeisekiKanriDB {
 		ArrayList<TokutenTbl2> list = new ArrayList<TokutenTbl2>();
 		PreparedStatement stmt;
 		try {
-			stmt = con.prepareStatement("SELECT seito.sid,namae,tnamae,testsyousai.tid,kid,ten FROM "
-										+"((seito LEFT join tokuten on seito.sid=tokuten.sid) "
+			stmt = con.prepareStatement("SELECT seito.sid,namae,tnamae,testsyousai.tid,ka,ten FROM "
+										+"(((seito LEFT join tokuten on seito.sid=tokuten.sid) "
 										+ "JOIN testsyousai ON tokuten.tdid=testsyousai.tdid) "
-										+ "JOIN test on testsyousai.tid=test.tid WHERE seito.sid=? "
-										+ "AND testsyousai.kid=?");
+										+ "JOIN test on testsyousai.tid=test.tid) Join kyouka ON "
+										+ "testsyousai.kid=kyouka.kid WHERE seito.sid=? ");
 			stmt.setInt(1, sid1);
-			stmt.setInt(2, kid1);
 			ResultSet rs = stmt.executeQuery();
 
 			while (rs.next()) {
@@ -190,7 +189,7 @@ public class SeisekiKanriDB {
 				se.setNamae(rs.getString("namae"));
 				se.setTnamae(rs.getString("tnamae"));
 				se.setTid(rs.getInt("testsyousai.tid"));
-				se.setKid(rs.getInt("kid"));
+				se.setKa(rs.getString("ka"));
 				se.setTen(rs.getInt("ten"));
 				list.add(se);
 			}
@@ -220,7 +219,7 @@ public class SeisekiKanriDB {
 				se.setNamae(rs.getString("namae"));
 				se.setTnamae(rs.getString("tnamae"));
 				se.setTid(rs.getInt("testsyousai.tid"));
-				se.setKid(0);
+				se.setKa("合計");
 				se.setTen(rs.getInt("sum(ten)"));
 				list.add(se);
 			}
