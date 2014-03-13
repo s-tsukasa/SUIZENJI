@@ -37,23 +37,23 @@ else if(mode == 5){%>
 <h2>登録完了しました。</h2>
 <%
 if(mode == 1){%>
-	<a href="touroku_ent">得点入力画面へ</a>
+	<a href="Tokuten_ent">得点入力画面へ</a>
 <%
 }
 else if(mode == 2){%>
-	<a href="kyuedit">クラス編成画面へ</a>
+	<a href="Kyuedit">クラス編成画面へ</a>
 <%
 }
 else if(mode == 3){%>
-	<a href="testedit2">試験名入力画面へ</a>
+	<a href="Testedit2">試験名入力画面へ</a>
 <%
 }
 else if(mode == 4){%>
-	<a href="kyoukaedit2">教科名入力画面へ</a>
+	<a href="Kyoukaedit2">教科名入力画面へ</a>
 <%
 }
 else if(mode == 5){%>
-	<a href="seitoedit2">生徒情報入力画面へ</a>
+	<a href="Seitoedit2">生徒情報入力画面へ</a>
 <%
 }
 %>
