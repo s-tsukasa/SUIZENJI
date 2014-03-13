@@ -46,17 +46,19 @@ public class Tourokuend extends HttpServlet {
 
 		SeisekiKanriDB db = new SeisekiKanriDB();
 //		ArrayList<Tokuten> tenlist = db.getTokutenList(sid,tlist);
-		ArrayList<TestSyousai> tlist = db.getTestSyousaiList();
-		ArrayList<Tokuten> tenlist = db.getTokutenList();
+//		ArrayList<TestSyousai> tlist = db.getTestSyousaiList();
 		ArrayList<SeitoAll> slist_tmp = db.getSeitoAllList();
+		ArrayList<Tokuten> tenlist;
+		ArrayList<TestSyousai> tlist;
 
 		// 処理
 		ArrayList<SeitoAll> slist = new ArrayList<SeitoAll>();
 		for(int i=0;i<num;i++) {
 			str_sid = "sid" + i;
 			str_ten = "ten" + i;
-//			ArrayList<TestSyousai> tlist = db.getTestSyousaiList(tid,kid);
-//			db.insertTokuten(Integer.parseInt(request.getParameter(str_sid)), tlist.get(0).getTdid(), Integer.parseInt(request.getParameter(str_ten)));
+			tlist = db.getTestSyousaiList(tid,kid);
+			tlist.get(0).getTdid();
+			db.insertTokuten(Integer.parseInt(request.getParameter(str_sid)), tlist.get(0).getTdid(), Integer.parseInt(request.getParameter(str_ten)));
 		}
 		db.close();
 

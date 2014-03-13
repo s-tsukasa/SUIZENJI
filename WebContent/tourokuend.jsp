@@ -8,12 +8,57 @@
 </head>
 <body>
 
-<h2>登録完了しました。</h2>
 <%
 int mode = Integer.parseInt((String)request.getAttribute("mode"));
 %>
 
-<%=mode %>
+<%
+if(mode == 1){%>
+	<h2>得点入力画面</h2>
+<%
+}
+else if(mode == 2){%>
+	<h2>クラス編成画面へ</h2>
+<%
+}
+else if(mode == 3){%>
+	<h2>試験名入力画面へ</h2>
+<%
+}
+else if(mode == 4){%>
+	<h2>教科名入力画面へ</h2>
+<%
+}
+else if(mode == 5){%>
+	<h2>生徒情報入力画面へ</h2>
+<%
+}
+%>
+<h2>登録完了しました。</h2>
+<%
+if(mode == 1){%>
+	<a href="touroku_ent">得点入力画面へ</a>
+<%
+}
+else if(mode == 2){%>
+	<a href="kyuedit">クラス編成画面へ</a>
+<%
+}
+else if(mode == 3){%>
+	<a href="testedit2">試験名入力画面へ</a>
+<%
+}
+else if(mode == 4){%>
+	<a href="kyoukaedit2">教科名入力画面へ</a>
+<%
+}
+else if(mode == 5){%>
+	<a href="seitoedit2">生徒情報入力画面へ</a>
+<%
+}
+%>
+
+<br>
 <a href="index.html">トップメニューに戻る</a>
 
 </body>
