@@ -15,9 +15,9 @@
 ArrayList<SeitoAll> slist = (ArrayList<SeitoAll>)request.getAttribute("slist");
 ArrayList<Test> tlist = (ArrayList<Test>)request.getAttribute("tlist");
 ArrayList<Kyouka> klist = (ArrayList<Kyouka>)request.getAttribute("klist");
-int intid = Integer.parseInt((String)request.getAttribute("tid"));
-int inkid = Integer.parseInt((String)request.getAttribute("kid"));
-int innen = Integer.parseInt((String)request.getAttribute("nen"));
+int tid = Integer.parseInt((String)request.getAttribute("tid"));
+int kid = Integer.parseInt((String)request.getAttribute("kid"));
+int nen = Integer.parseInt((String)request.getAttribute("nen"));
 String inkyu = (String)request.getAttribute("kyu");
 
 
@@ -31,7 +31,7 @@ int i;
 	i=0;
 	if(tlist != null) {
 		for(Test t : tlist) {
-			if(t.getTid() == intid){%>
+			if(t.getTid() == tid){%>
 				<option value="<%=t.getTid()%>" selected><%=t.getTnamae() %></option>
 <%			}
 			else{%>
@@ -46,7 +46,7 @@ int i;
 	i=0;
 	if(klist != null) {
 		for(Kyouka k : klist) {
-			if(k.getKid()== inkid){%>
+			if(k.getKid()== kid){%>
 				<option value="<%=k.getKid()%>" selected><%=k.getKa() %></option>
 <%			}
 			else{%>
@@ -59,7 +59,7 @@ int i;
 <br>学年<select name="nen">
 <%
 	for(i=1;i<=3;i++) {
-		if(i == innen){%>
+		if(i == nen){%>
 			<option value="<%=i%>" selected><%=i %></option>
 <%		}
 		else{%>
@@ -83,6 +83,7 @@ else{                  %><option value="C">C</option><%} %>
 
 <form action="Touroku_end" method="POST" >
 <%
+i = 0;
 if(slist != null) {
 	%>
 	<table>
@@ -90,13 +91,16 @@ if(slist != null) {
 	<%
 	for(SeitoAll s : slist) {
 %>
-	<tr><td><%= s.getSid()  %></td><td><%= s.getNamae() %></td><td><input type = "text" name = "ten<%=i %>"></td><input type="hidden" name="sid<%=i %>" value="<%=i %>"><tr>
+	<tr><td><%= s.getSid()  %></td><td><%= s.getNamae() %></td><td><input type = "text" name = "ten<%=i %>"></td>
+	<input type="hidden" name="sid<%=i %>" value="<%=s.getSid() %>">
 <%i = i + 1;
 	}%>
 	</table>
 <%
 }
 %>
+<input type="hidden" name="tid" value="<%=tid %>">
+<input type="hidden" name="kid" value="<%=kid %>">
 <input type="hidden" name="mode" value=1>
 <input type="submit" value="登録">
 
