@@ -30,19 +30,22 @@ public class Ranking3 extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		TeikiTest tt = new TeikiTest();
-		ArrayList<String> tlist = tt.getList("test");
+		ArrayList<Test>   tlist = tt.getTest();
 		ArrayList<String> nlist = tt.getList("nen");
 		ArrayList<String> mlist = tt.getList("kyu");
-		ArrayList<String> klist = tt.getList("ka");
+		ArrayList<Kyouka> klist = tt.getKyouka();
 
 		request.setAttribute("tlist", tlist);
 		request.setAttribute("nlist", nlist);
 		request.setAttribute("mlist", mlist);
 		request.setAttribute("klist", klist);
 
-/*
-		request.setAttribute("avg", 0.0);
-*/
+		// 初期表示
+		request.setAttribute("tval", "1");	// 試験ID
+		request.setAttribute("nval", "1");	// 学年
+		request.setAttribute("mval", "-");	// 学級
+		request.setAttribute("kval", "1");	// 教科ID
+
 		RequestDispatcher dispatch = request.getRequestDispatcher("ranking3.jsp");
 		dispatch.forward(request, response);		// TODO Auto-generated method stub
 	}
@@ -53,26 +56,28 @@ public class Ranking3 extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("UTF-8");
 		// FORM データの取得
-		String tval = request.getParameter("tnamae");	// 試験名
-		String nval = request.getParameter("nen");		// 学年
-		String mval = request.getParameter("kyu");		// 学級
-		String kval = request.getParameter("ka");		// 教科
+		String tstr = request.getParameter("tnamae");	// 試験ID
+		int    tval = Integer.parseInt(request.getParameter("tnamae"));	// 試験ID
+		String nstr = request.getParameter("nen");		// 学年
+		String mstr = request.getParameter("kyu");		// 学級
+		String kstr = request.getParameter("ka");		// 教科ID
+		int    kval = Integer.parseInt(request.getParameter("ka"));		// 教科ID
 
 		TeikiTest tt = new TeikiTest();
-		ArrayList<String> tlist = tt.getList("test");
+		ArrayList<Test>   tlist = tt.getTest();
 		ArrayList<String> nlist = tt.getList("nen");
 		ArrayList<String> mlist = tt.getList("kyu");
-		ArrayList<String> klist = tt.getList("ka");
+		ArrayList<Kyouka> klist = tt.getKyouka();
 
 		request.setAttribute("tlist", tlist);
 		request.setAttribute("nlist", nlist);
 		request.setAttribute("mlist", mlist);
 		request.setAttribute("klist", klist);
 
-		request.setAttribute("tval", tval);	// 指定された試験名
-		request.setAttribute("nval", nval);	// 指定された学年
-		request.setAttribute("mval", mval);	// 指定された学級
-		request.setAttribute("kval", kval);	// 指定された学級
+		request.setAttribute("tval", tstr);	// 指定された試験名
+		request.setAttribute("nval", nstr);	// 指定された学年
+		request.setAttribute("mval", mstr);	// 指定された学級
+		request.setAttribute("kval", kstr);	// 指定された学級
 
 
 		/*
@@ -93,6 +98,11 @@ public class Ranking3 extends HttpServlet {
 			stmt.close();
 		*/
 
+		//学年、学級、テストID、教科IDからリストを返す
+		tt.setNen(Integer.parseInt(nstr));
+		tt.setKyu(mstr);
+		tt.setTid(tval);
+		tt.setKid(kval);
 
 		// ランキング、平均点の設定
 		ArrayList<RankTableTest> list = tt.Ranking();

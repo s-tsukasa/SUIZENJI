@@ -2,7 +2,6 @@ package Serv;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Comparator;
 
 public class TeikiTest {
@@ -16,6 +15,8 @@ public class TeikiTest {
 	private float avg;	// 平均点
 	private String kyu;	// 組
 	private String ka;	// 教科
+	private int tid;	// 試験ID
+	private int kid;	// 教科ID
 
 
 	public TeikiTest() {
@@ -86,6 +87,27 @@ public class TeikiTest {
 	public void setKa(String ka) {
 		this.ka = ka;
 	}
+
+	public int getTid() {
+		return tid;
+	}
+
+	public void setTid(int tid) {
+		this.tid = tid;
+	}
+
+	public int getKid() {
+		return kid;
+	}
+
+	public void setKid(int kid) {
+		this.kid = kid;
+	}
+
+	public void setAvg(float avg) {
+		this.avg = avg;
+	}
+
 	//-------------------------------------------------
 //	public void testList() {
 //
@@ -109,88 +131,87 @@ public class TeikiTest {
 			list.add(new String("3"));
 		}
 		else if (str.equals("kyu")) {
-			list.add(new String("－"));
+			list.add(new String("-"));	// 全クラス分に対応！
 			list.add(new String("A"));
 			list.add(new String("B"));
 			list.add(new String("C"));
 		}
 		else {
-			SeisekiKanriDB db = new SeisekiKanriDB();
-			if(str.equals("test")) {
-				ArrayList<Test>   dbL = db.getTestList();
-				//list.add(new String("－"));
-				for(Test l : dbL) {
-					list.add(l.getTnamae());
-				}
-			}
-			else if(str.equals("ka")) {
-				ArrayList<Kyouka> dbL = db.getKyoukaList();
-				//list.add(new String("－"));
-				list.add(new String("合計"));
-				for(Kyouka l : dbL) {
-					list.add(l.getKa());
-				}
-			}
-			else {
-				// none
-			}
-			db.close();
+			// non
 		}
+		return list;
+	}
+	public ArrayList<Test> getTest() {
+		SeisekiKanriDB db = new SeisekiKanriDB();
+		ArrayList<Test>   list = db.getTestList();
+		db.close();
+
+		// 追加データ分　　不要！
+		//Test t = new Test();
+		//t.setTid(0);
+		//t.setTnamae("－");
+		//list.add(t);
+
+		return list;
+	}
+
+	public ArrayList<Kyouka> getKyouka() {
+		SeisekiKanriDB db = new SeisekiKanriDB();
+		ArrayList<Kyouka> list = db.getKyoukaList();
+		db.close();
+
+		// 追加データ分
+		Kyouka k = new Kyouka();
+		k.setKid(0);
+		k.setKa("合計");		// 総合得点に対応
+		list.add(k);
 
 		return list;
 	}
 
 	public ArrayList<RankTableTest> Ranking() {
+		SeisekiKanriDB db = new SeisekiKanriDB();
+		ArrayList<TokutenTbl> tbl = new ArrayList<TokutenTbl>();
+
+		if(kyu.equals("-")) {
+			if(kid == 0) {
+				// 試験と学年（学年全体で、総合点）
+				tbl = db.getTokutenTblList(nen, tid);
+			}
+			else {
+				// 試験と学年と教科（学年全体で、教科点）
+				tbl = db.getTokutenTblList(nen, tid, kid);
+			}
+		}
+		else {
+			if(kid == 0) {
+				// 試験と学年とクラス（クラス全体で、総合点）
+				tbl = db.getTokutenTblList(nen, kyu, tid);
+			}
+			else {
+				// 試験と学年とクラスと教科（クラス全体で、教科点）
+				tbl = db.getTokutenTblList(nen, kyu, tid, kid);
+			}
+		}
+		db.close();
+
 		ArrayList<RankTableTest> list = new ArrayList<RankTableTest>();
-		// 総得点、または教科点でソートし、
-		// RankTableTestクラスを作成
+		for(TokutenTbl tL : tbl) {
+//			System.out.println(tL.getTen());
 
-		// 総得点の場合は、いったん合計する
+			// ランキング表示用を作成
+			RankTableTest r = new RankTableTest();
+			r.setTen(tL.getTen());		// 点数
+			r.setKyu(tL.getKyu());		// 学級
+			r.setNamae(tL.getNamae());	// 生徒名
+			list.add(r);
+		}
 
-		// データベースにアクセス
-		//		点数、組、名前の情報を取得
 
-		// RankTableTest にセット
-		//debug
-		//+---------------------+------+------+------+------------+
-		//| tnamae              | nen  | ka   | ten  | namae      |
-		//+---------------------+------+------+------+------------+
-		//| 12年度1学期中間試験 | 2012 | 国語 |   85 | 浅田優     |
-		//| 12年度1学期中間試験 | 2012 | 国語 |   51 | 安部孝則   |
-		//| 12年度1学期中間試験 | 2012 | 国語 |   85 | 安藤由紀子 |
-		//| 12年度1学期中間試験 | 2012 | 国語 |   61 | 関川雄太   |
-		//| 12年度1学期中間試験 | 2012 | 国語 |   64 | 曽根麻里   |
-		//| 12年度1学期中間試験 | 2012 | 国語 |   93 | 高田一義   |
-		//| 12年度1学期中間試験 | 2012 | 国語 |   21 | 野田智     |
-		//| 12年度1学期中間試験 | 2012 | 国語 |   21 | 野本綾乃   |
-		//| 12年度1学期中間試験 | 2012 | 国語 |   56 | 浜本小百合 |
-		//+---------------------+------+------+------+------------+
-		//イメージ
-		RankTableTest r = new RankTableTest();
-		r.setTen(85);
-		r.setKyu("?");
-		r.setNamae("浅田優2");
-		list.add(r);
-		RankTableTest r1 = new RankTableTest();
-		r1.setTen(51);
-		r1.setKyu("?");
-		r1.setNamae("安部孝則2");
-		list.add(r1);
-		RankTableTest r2 = new RankTableTest();
-		r2.setTen(85);
-		r2.setKyu("?");
-		r2.setNamae("安藤由紀子2");
-		list.add(r2);
-		RankTableTest r3 = new RankTableTest();
-		r3.setTen(61);
-		r3.setKyu("?");
-		r3.setNamae("関川雄太2");
-		list.add(r3);
+		// 点数でソート  DB入手の際にソート済み！！！
+		// Collections.sort(list, new CompTokuten());
 
-		// 点数でソート
-		Collections.sort(list, new CompTokuten());
-
-		// ループして順位をセット
+		// ループして順位をセット、点数合計
 		int no      = 0;	// 順位
 		int ten_old = -1;	// １つ前の得点 マイナス得点なしの前提
 		int ten_new = -1;	// 今の得点
@@ -209,7 +230,6 @@ public class TeikiTest {
 
 		// 平均点計算
 		this.avg = ten_all / num;
-
 
 		return list;
 	}
