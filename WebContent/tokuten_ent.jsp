@@ -6,46 +6,95 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <link rel="stylesheet" href="my.css" content="text/css">
 <title>得点入力</title>
+<link rel="stylesheet" href="my.css" content="text/css">
 </head>
 <body>
 <h2>工事中</h2>
 
+<%
+ArrayList<SeitoAll> slist = (ArrayList<SeitoAll>)request.getAttribute("slist");
+ArrayList<Test> tlist = (ArrayList<Test>)request.getAttribute("tlist");
+ArrayList<Kyouka> klist = (ArrayList<Kyouka>)request.getAttribute("klist");
+int intid = Integer.parseInt((String)request.getAttribute("tid"));
+int inkid = Integer.parseInt((String)request.getAttribute("kid"));
+int innen = Integer.parseInt((String)request.getAttribute("nen"));
+String inkyu = (String)request.getAttribute("kyu");
+
+
+int i;
+%>
+
+
 <form action="Tokuten_ent" method="POST" >
-試験名<select name="tnamae">
-<option value="12年度1学期中間試験">12年度1学期中間試験</option>
-<option value="12年度1学期期末試験">12年度1学期期末試験</option>
+試験名<select name="tid">
+<%
+	i=0;
+	if(tlist != null) {
+		for(Test t : tlist) {
+			if(t.getTid() == intid){%>
+				<option value="<%=t.getTid()%>" selected><%=t.getTnamae() %></option>
+<%			}
+			else{%>
+				<option value="<%=t.getTid()%>"><%=t.getTnamae() %></option>
+<%			}
+		}
+	}
+%>
 </select>
-<br>教科<select name="ka">
-<option value="1">国語</option>
-<option value="2">数学</option>
+<br>教科<select name="kid">
+<%
+	i=0;
+	if(klist != null) {
+		for(Kyouka k : klist) {
+			if(k.getKid()== inkid){%>
+				<option value="<%=k.getKid()%>" selected><%=k.getKa() %></option>
+<%			}
+			else{%>
+				<option value="<%=k.getKid()%>"><%=k.getKa() %></option>
+<%			}
+		}
+	}
+%>
 </select>
 <br>学年<select name="nen">
-<option value="1">1</option>
-<option value="2">2</option>
-<option value="3">3</option>
+<%
+	for(i=1;i<=3;i++) {
+		if(i == innen){%>
+			<option value="<%=i%>" selected><%=i %></option>
+<%		}
+		else{%>
+			<option value="<%=i%>"><%=i %></option>
+<%		}
+	}
+%>
 </select>
 <br>組<select name="kyu">
-<option value="A">A</option>
-<option value="B">B</option>
-<option value="C">C</option>
+<%if(inkyu.equals("A")){ %><option value="A" selected>A</option><%}
+else{                  %><option value="A">A</option><%} %>
+<%if(inkyu.equals("B")){ %><option value="B" selected>B</option><%}
+else{                  %><option value="B">B</option><%} %>
+<%if(inkyu.equals("C")){ %><option value="C" selected>C</option><%}
+else{                  %><option value="C">C</option><%} %>
 <br>
 <input type="submit" value="決定">
 </select>
 </form>
 
-<%
-ArrayList<SeitoAll> list = (ArrayList<SeitoAll>)request.getAttribute("slist");
-%>
 
 <form action="Touroku_end" method="POST" >
 <%
-int i = 0;
-if(list != null) {
-	for(SeitoAll s : list) {
+if(slist != null) {
+	%>
+	<table>
+	<tr><td>学生番号</td><td>名前</td><td>得点入力</td>
+	<%
+	for(SeitoAll s : slist) {
 %>
-	<%= s.getSid()  %> 	<%= s.getNamae() %>  <input type = "text" name = "ten<%=i %>"><input type="hidden" name="sid<%=i %>" value="<%=i %>"><br>
+	<tr><td><%= s.getSid()  %></td><td><%= s.getNamae() %></td><td><input type = "text" name = "ten<%=i %>"></td><input type="hidden" name="sid<%=i %>" value="<%=i %>"><tr>
 <%i = i + 1;
-	}
+	}%>
+	</table>
+<%
 }
 %>
 <input type="hidden" name="mode" value=1>
