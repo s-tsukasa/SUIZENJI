@@ -563,6 +563,33 @@ public class SeisekiKanriDB {
 
 	//---------------------------------------------------------------
 	// TestSyousai テスト詳細
+	//試験IDと強化IDで絞込み
+	public ArrayList<TestSyousai> getTestSyousaiList(int tid,int kid) {
+		ArrayList<TestSyousai> list = new ArrayList<TestSyousai>();
+		PreparedStatement stmt;
+		try {
+			stmt = con.prepareStatement("SELECT * from testsyousai WHERE tid=? AND kid=?");
+			stmt.setInt(1,tid);
+			stmt.setInt(2,kid);
+
+			ResultSet rs = stmt.executeQuery();
+
+			while (rs.next()) {
+				TestSyousai ts = new TestSyousai();
+				ts.setTdid(rs.getInt("tdid"));
+				ts.setTid(rs.getInt("tid"));
+				ts.setKid(rs.getInt("kid"));
+				ts.setDelete_flag(rs.getInt("delete_flag"));
+				list.add(ts);
+			}
+			rs.close();
+			stmt.close();
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}
+		return list;
+	}
+	//単純select
 	public ArrayList<TestSyousai> getTestSyousaiList() {
 		ArrayList<TestSyousai> list = new ArrayList<TestSyousai>();
 		PreparedStatement stmt;
@@ -634,6 +661,33 @@ public class SeisekiKanriDB {
 
 	//---------------------------------------------------------------
 	// Tokuten 得点
+	//生徒IDと試験詳細IDで絞り込む
+	public ArrayList<Tokuten> getTokutenList(int sid,int tdid) {
+		ArrayList<Tokuten> list = new ArrayList<Tokuten>();
+		PreparedStatement stmt;
+		try {
+			stmt = con.prepareStatement("SELECT * from tokuten WHERE sid=? AND tdid=?");
+			stmt.setInt(1,sid);
+			stmt.setInt(2,tdid);
+			ResultSet rs = stmt.executeQuery();
+
+			while (rs.next()) {
+				Tokuten to = new Tokuten();
+				to.setTenid(rs.getInt("tenid"));
+				to.setSid(rs.getInt("sid"));
+				to.setTdid(rs.getInt("tdid"));
+				to.setTen(rs.getInt("ten"));
+				to.setDelete_flag(rs.getInt("delete_flag"));
+				list.add(to);
+			}
+			rs.close();
+			stmt.close();
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}
+		return list;
+	}
+	//単純select
 	public ArrayList<Tokuten> getTokutenList() {
 		ArrayList<Tokuten> list = new ArrayList<Tokuten>();
 		PreparedStatement stmt;
