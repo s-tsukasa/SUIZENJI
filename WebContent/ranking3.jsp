@@ -18,44 +18,75 @@
 //db.close();
 %>
 <%
-ArrayList<String> tname = (ArrayList<String>)request.getAttribute("tlist");	// 試験名
-ArrayList<String> kname = (ArrayList<String>)request.getAttribute("klist");	// 教科名
+ArrayList<String> tname = (ArrayList<String>)request.getAttribute("tlist");	// 試験名リスト
+ArrayList<String> nname = (ArrayList<String>)request.getAttribute("nlist");	// 学年名リスト
+ArrayList<String> mname = (ArrayList<String>)request.getAttribute("mlist");	// 学級名リスト
+ArrayList<String> kname = (ArrayList<String>)request.getAttribute("klist");	// 教科名リスト
+String avg  = (String)request.getAttribute("avg");	// 平均点
+String tval = (String)request.getAttribute("tval");	// 指定された試験名
+String nval = (String)request.getAttribute("nval");	// 指定された学年
+String mval = (String)request.getAttribute("mval");	// 指定された学級
+String kval = (String)request.getAttribute("kval");	// 指定された教科
 %>
-
+<!--
 20xx年度<br>
+試験名 <%= tval %> <br>
+学年 <%= nval %><br>
+学級 <%= mval %><br>
+教科 <%= kval %><br>
+ -->
 <form action="Ranking3" method="POST" >
 試験名<select name="tnamae">
 <% for(String tn : tname) { %>
-<option value="<%= tn %>"><%= tn %></option>
+<% if(tn.equals(tval)) { %>
+		<option value="<%= tn %>" selected><%= tn %></option>
+<% }
+   else { %>
+   		<option value="<%= tn %>"><%= tn %></option>
+<% } %>
 <% } %>
 </select>
 <br>
 <!-- 1から3年に固定 -->
 学年<select name="nen">
-<option value="A">1</option>
-<option value="B">2</option>
-<option value="C">3</option>
+
+<% for(String nn : nname) { %>
+<% 	if(nn.equals(nval)) { %>
+		<option value="<%= nn %>" selected><%= nn %></option>
+<% 	}
+ 	else { %>
+		<option value="<%= nn %>"><%= nn %></option>
+<% 	} %>
+<% } %>
 </select>
-<!-- A,B,Cに固定 -->
 組<select name="kyu">
-<option value="A">A</option>
-<option value="B">B</option>
-<option value="C">C</option>
+<% for(String mn : mname) { %>
+<% 	if(mn.equals(mval)) { %>
+		<option value="<%= mn %>" selected><%= mn %></option>
+<% 	}
+ 	else { %>
+		<option value="<%= mn %>"><%= mn %></option>
+<% 	} %>
+<% } %>
 </select>
 教科<select name="ka">
 <% for(String kn : kname) { %>
-<option value="<%= kn %>"><%= kn %></option>
+<% 	if(kn.equals(kval)) { %>
+		<option value="<%= kn %>" selected><%= kn %></option>
+<% 	}
+ 	else { %>
+		<option value="<%= kn %>"><%= kn %></option>
+<% 	} %>
 <% } %>
 </select>
 <input type="submit" value="決定">
 </form>
+<% if(avg != null) { %>
+	平均点 <%=avg %>
+<% } else { %>
+	平均点
+<%} %>
 
-<!--
-<table>
-<tr><th  rowspan=2>試験名</th><th colspan=2>総合</th><tr>
-<tr><th>中間試験</th><th>得点</th><th>順位</th></tr>
-</table>
--->
 
 <%
 ArrayList<RankTableTest> list = (ArrayList<RankTableTest>)request.getAttribute("tablelist");
