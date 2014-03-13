@@ -36,11 +36,17 @@ public class Ranking2 extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		int nen = Integer.parseInt(request.getParameter("nen"));
+		String kyu=request.getParameter("kyu");
+
 		SeisekiKanriDB db = new SeisekiKanriDB();
 		ArrayList<SeitoAll> list = db.getSeitoAllList();
 		db.close();
 
 		request.setAttribute("slist", list);
+		request.setAttribute("nen", Integer.toString(nen));
+		request.setAttribute("kyu", kyu);
+
 		RequestDispatcher dispatch = request.getRequestDispatcher("ranking2.jsp");
 		dispatch.forward(request, response);
 		// TODO Auto-generated method stub
