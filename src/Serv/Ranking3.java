@@ -93,7 +93,7 @@ public class Ranking3 extends HttpServlet {
 		ArrayList<RankTableTest> list = tt.Ranking();
 		if(list == null) {
 			request.setAttribute("outstr", "該当するデータがありません。");
-			RequestDispatcher dispatch = request.getRequestDispatcher("ranking3.jsp");
+			RequestDispatcher dispatch = request.getRequestDispatcher("error.jsp");
 			dispatch.forward(request, response);
 			return;
 		}
