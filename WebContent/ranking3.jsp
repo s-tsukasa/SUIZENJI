@@ -22,7 +22,7 @@ String mval = (String)request.getAttribute("mval");	// 指定された学級
 int    kval = Integer.parseInt((String)request.getAttribute("kval"));	// 指定された教科
 %>
 <!--
-20xx年度<br>
+デバッグ文
 試験名 <%= tval %> <br>
 学年 <%= nval %><br>
 学級 <%= mval %><br>
