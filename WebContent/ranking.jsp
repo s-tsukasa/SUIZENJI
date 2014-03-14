@@ -8,7 +8,6 @@
 <title>成績学級選択</title>
 </head>
 <body>
-<h2>工事中</h2>
 <p>表示したい生徒の学年とクラスを選択してください</p>
 <form action="Ranking2" method="POST" >
 <br>学年<select name="nen">
@@ -24,6 +23,6 @@
 <input type="submit" value="決定">
 </select>
 </form>
-
+<a href="index.html">トップメニューに戻る</a>
 </body>
 </html>

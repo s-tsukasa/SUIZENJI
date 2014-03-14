@@ -24,9 +24,9 @@ String kyu=(String)request.getAttribute("kyu");
 <table>
 
 <tr>
-<td>名前</td>
-<td>テスト名</td>
-<td>得点</td>
+<th>名前</th>
+<th>テスト名</th>
+<th>得点</th>
 </tr>
 
 <% list.get(0); %>
@@ -40,5 +40,6 @@ String kyu=(String)request.getAttribute("kyu");
 <% } %>
 </table>
 
+<a href="index.html">トップメニューに戻る</a>
 </body>
 </html>
