@@ -19,28 +19,34 @@ int mode=Integer.parseInt((String)request.getAttribute("mode"));
 
 
 int sid = 0;
-
-if ( mode == 1){
-	sid=Integer.parseInt((String)request.getAttribute("sid"));
-}
 %>
-
 学年<%=nen%>  学級<%=kyu%>
+<%
+if ( mode == 1){
+	int no=Integer.parseInt((String)request.getAttribute("no"));
+	sid=Integer.parseInt((String)request.getAttribute("sid"));
+}%>
+
+
+
 
 <form action="Ranking2" method="POST" >
 <input type="hidden" name="nen" value="<%=nen %>">
 <input type="hidden" name="kyu" value="<%=kyu %>">
 <br>名前<select name="sid">
 
-<%for (SeitoAll s:list){ %>
+<% int num=0; %>
+<%for (SeitoAll s:list){%>
 <% 	if(s.getSid() == sid) { %>
 		<option value="<%=s.getSid() %>" selected><%=s.getNamae() %></option>
+		<% num=s.getNo(); %>
 <% 	}
  	else { %>
 		<option value="<%= s.getSid() %>"><%= s.getNamae() %></option>
 <% 	} %>
 <% } %>
 </select>
+<input type="hidden" name="no" value="<%=num%>">
 <input type="submit" value="決定">
 </form>
 

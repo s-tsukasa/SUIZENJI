@@ -39,7 +39,7 @@ public class Ranking2 extends HttpServlet {
 
 		if (request.getParameter("sid") != null){
 			int sid = Integer.parseInt(request.getParameter("sid"));
-
+			int no = Integer.parseInt(request.getParameter("no"));
 			SeisekiKanriDB db1 = new SeisekiKanriDB();
 			ArrayList<TokutenTbl2> list1 = db1.getTokutenTbl2List(sid);
 			ArrayList<TokutenTbl2> list2 = db1.getTokutenTbl2List(sid,0);
@@ -48,6 +48,7 @@ public class Ranking2 extends HttpServlet {
 			request.setAttribute("slist1", list1);
 			request.setAttribute("slist2", list2);
 			request.setAttribute("mode","1");
+			request.setAttribute("no",Integer.toString(no));
 
 		}else {
 			request.setAttribute("mode","0");
