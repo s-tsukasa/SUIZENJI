@@ -234,6 +234,10 @@ public class TeikiTest {
 			ten_old = ten_new;
 		}
 
+		if( num == 0) {
+			return null;
+		}
+
 		// 平均点計算
 		this.avg = (float)ten_all / (float)num;
 
