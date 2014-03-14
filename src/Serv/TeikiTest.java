@@ -221,9 +221,9 @@ public class TeikiTest {
 		for(RankTableTest ra : list) {
 			num++;
 			ten_new = ra.getTen();	// 得点の取得
-			ten_all += ten_new;
+			ten_all += ten_new;		// 得点の合計
 			if(ten_old != ten_new) {	// １回目は必ず異なるため最初の順位は１となる。
-				no++;
+				no = num;	// 得点が違えば、得点の数を順位としてセット
 			}
 			ra.setRank(no);
 			ten_old = ten_new;
@@ -233,6 +233,18 @@ public class TeikiTest {
 		this.avg = ten_all / num;
 
 		return list;
+	}
+
+	public int getRankName(ArrayList<RankTableTest> list, String namae) {
+		int no = 0;
+		for(RankTableTest r : list) {
+			String str = r.getNamae();
+			if(str.equals(namae)) {
+				no = r.getRank();
+				break;
+			}
+		}
+		return no;
 	}
 
 	// RankTableTest内の点数で比較する関数
