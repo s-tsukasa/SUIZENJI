@@ -29,22 +29,24 @@ public class Ranking3 extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// 試験ごとのclass生成
 		TeikiTest tt = new TeikiTest();
+		// プルダウンメニューの情報を生成
 		ArrayList<Test>   tlist = tt.getTest();
 		ArrayList<String> nlist = tt.getList("nen");
 		ArrayList<String> mlist = tt.getList("kyu");
 		ArrayList<Kyouka> klist = tt.getKyouka();
-
+		// jspへデータセット
 		request.setAttribute("tlist", tlist);
 		request.setAttribute("nlist", nlist);
 		request.setAttribute("mlist", mlist);
 		request.setAttribute("klist", klist);
 
-		// 初期表示
+		// 初期表示設定
 		request.setAttribute("tval", "1");	// 試験ID
 		request.setAttribute("nval", "1");	// 学年
 		request.setAttribute("mval", "-");	// 学級
-		request.setAttribute("kval", "1");	// 教科ID
+		request.setAttribute("kval", "0");	// 教科ID ->合計
 
 		RequestDispatcher dispatch = request.getRequestDispatcher("ranking3.jsp");
 		dispatch.forward(request, response);		// TODO Auto-generated method stub
@@ -63,46 +65,29 @@ public class Ranking3 extends HttpServlet {
 		String kstr = request.getParameter("ka");		// 教科ID
 		int    kval = Integer.parseInt(request.getParameter("ka"));		// 教科ID
 
+		// 試験ごとのclass生成
 		TeikiTest tt = new TeikiTest();
+		// プルダウンメニューの情報を生成
 		ArrayList<Test>   tlist = tt.getTest();
 		ArrayList<String> nlist = tt.getList("nen");
 		ArrayList<String> mlist = tt.getList("kyu");
 		ArrayList<Kyouka> klist = tt.getKyouka();
-
+		// jspへデータセット
 		request.setAttribute("tlist", tlist);
 		request.setAttribute("nlist", nlist);
 		request.setAttribute("mlist", mlist);
 		request.setAttribute("klist", klist);
-
+		// FORMで指定された値を設定
 		request.setAttribute("tval", tstr);	// 指定された試験名
 		request.setAttribute("nval", nstr);	// 指定された学年
 		request.setAttribute("mval", mstr);	// 指定された学級
 		request.setAttribute("kval", kstr);	// 指定された学級
 
-
-		/*
-		ArrayList<Memo> list = new ArrayList<Memo>();
-		try{
-			PreparedStatement stmt = con.prepareStatement("SELECT * from memo");
-			ResultSet rs = stmt.executeQuery();
-
-			while (rs.next()) {
-				Memo s = new Memo();
-				s.setMid(rs.getInt("mid"));
-				s.setBody(rs.getString("body"));
-				s.setMtime(rs.getTimestamp("mtime"));
-				list.add(s);
-			}
-
-			rs.close();
-			stmt.close();
-		*/
-
-		//学年、学級、テストID、教科IDからリストを返す
-		tt.setNen(Integer.parseInt(nstr));
-		tt.setKyu(mstr);
-		tt.setTid(tval);
-		tt.setKid(kval);
+		// 抽出条件の設定
+		tt.setNen(Integer.parseInt(nstr));	// 学年
+		tt.setKyu(mstr);					// 学級
+		tt.setTid(tval);					// 試験ID
+		tt.setKid(kval);					// 教科ID
 
 		// ランキング、平均点の設定
 		ArrayList<RankTableTest> list = tt.Ranking();

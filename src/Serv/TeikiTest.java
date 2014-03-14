@@ -164,7 +164,8 @@ public class TeikiTest {
 		Kyouka k = new Kyouka();
 		k.setKid(0);
 		k.setKa("合計");		// 総合得点に対応
-		list.add(k);
+		// list.add(k);
+		list.add(0, k);
 
 		return list;
 	}
