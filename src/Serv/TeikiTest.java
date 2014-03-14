@@ -230,7 +230,7 @@ public class TeikiTest {
 		}
 
 		// 平均点計算
-		this.avg = ten_all / num;
+		this.avg = (float)ten_all / (float)num;
 
 		return list;
 	}

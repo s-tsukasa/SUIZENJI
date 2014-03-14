@@ -93,7 +93,8 @@ public class Ranking3 extends HttpServlet {
 		ArrayList<RankTableTest> list = tt.Ranking();
 
 		request.setAttribute("tablelist", list);		// 順位データをセット
-		String avg = Float.toString(tt.getAvg());		// 平均点をセット
+//		String avg = Float.toString(tt.getAvg());		// 平均点をセット
+		String avg = String.format("%.2f", tt.getAvg());		// 平均点をセット
 		request.setAttribute("avg", avg);
 
 		RequestDispatcher dispatch = request.getRequestDispatcher("ranking3.jsp");

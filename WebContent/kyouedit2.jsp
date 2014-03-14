@@ -6,6 +6,9 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>教科編集</title>
 </head>
+<h1>教科編集</h1>
+
+<a href="index.html">トップメニューに戻る</a>
 <body>
 
 </body>
