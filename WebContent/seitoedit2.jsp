@@ -6,6 +6,8 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>生徒情報入力</title>
 </head>
+<h1>生徒情報入力</h1>
+<a href="index.html">トップメニューに戻る</a>
 <body>
 
 </body>
