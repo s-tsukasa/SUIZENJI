@@ -91,6 +91,12 @@ public class Ranking3 extends HttpServlet {
 
 		// ランキング、平均点の設定
 		ArrayList<RankTableTest> list = tt.Ranking();
+		if(list == null) {
+			request.setAttribute("outstr", "該当するデータがありません。");
+			RequestDispatcher dispatch = request.getRequestDispatcher("ranking3.jsp");
+			dispatch.forward(request, response);
+			return;
+		}
 
 		request.setAttribute("tablelist", list);		// 順位データをセット
 //		String avg = Float.toString(tt.getAvg());		// 平均点をセット
