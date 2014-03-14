@@ -75,9 +75,9 @@ else{                  %><option value="A">A</option><%} %>
 else{                  %><option value="B">B</option><%} %>
 <%if(inkyu.equals("C")){ %><option value="C" selected>C</option><%}
 else{                  %><option value="C">C</option><%} %>
-<br>
-<input type="submit" value="決定">
 </select>
+<br>
+<input type="submit" value="表示">
 </form>
 
 
