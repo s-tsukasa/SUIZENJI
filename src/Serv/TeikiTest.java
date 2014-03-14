@@ -196,7 +196,12 @@ public class TeikiTest {
 		}
 		db.close();
 
+
 		ArrayList<RankTableTest> list = new ArrayList<RankTableTest>();
+		if( tbl == null) {
+			return null;
+		}
+
 		for(TokutenTbl tL : tbl) {
 //			System.out.println(tL.getTen());
 
